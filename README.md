@@ -33,7 +33,8 @@ If you find this work useful, please consider citing our paper.
 ```bibtex
 @article{chen2026flowanchor,
   title={FlowAnchor: Stabilizing the Editing Signal for Inversion-Free Video Editing},
-  author={Chen et al.},
-  journal={arXiv preprint},
+  author={Chen, Ze and Chen, Lan and Li, Yuanhang and Mao, Qi},
+  journal={arXiv preprint arXiv:2604.22586},
   year={2026}
 }
+
