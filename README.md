@@ -29,7 +29,14 @@ With these two designs, FlowAnchor enables more faithful, temporally coherent, a
 
 ## 📰 News
 
-- The paper is currently under review.
+- **[2026/04]** Released our arXiv paper: [FlowAnchor: Stabilizing the Editing Signal for Inversion-Free Video Editing](https://arxiv.org/abs/2604.22586).
+
+
+## 📝 To-Do List
+
+- [ ] Release the pipeline and inference code of FlowAnchor.
+- [ ] Release our implementation of Wan-Edit + mask.
+
 
 
 ## 📖 Citation
