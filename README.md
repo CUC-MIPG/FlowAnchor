@@ -1,12 +1,17 @@
 # FlowAnchor: Stabilizing the Editing Signal for Inversion-Free Video Editing
 
+<div align="center">
+
+[![Project Page](https://img.shields.io/badge/Project-Page-blue?style=for-the-badge&logo=googlechrome&logoColor=white)](https://cuc-mipg.github.io/FlowAnchor.github.io/)
+[![arXiv](https://img.shields.io/badge/arXiv-2604.22586-b31b1b.svg?style=for-the-badge)](https://arxiv.org/abs/2604.22586)
+
+</div>
 
 ## 👀 Preview
 
 ![teaser](assets/teaser_01.png)
 
-**FlowAnchor stabilizes inversion-free video editing across diverse challenging scenarios.**  
-While the inversion-free baseline Wan-Edit often struggles with mislocalized or weak edits, especially in multi-object scenes, fast-motion videos, and large semantic changes, **FlowAnchor** achieves precise localized editing with improved temporal consistency, semantic faithfulness, and background preservation.
+**FlowAnchor stabilizes inversion-free video editing across diverse challenging scenarios.** While the inversion-free baseline Wan-Edit often struggles with mislocalized or weak edits, especially in multi-object scenes, fast-motion videos, and large semantic changes, **FlowAnchor** achieves precise localized editing with improved temporal consistency, semantic faithfulness, and background preservation.
 
 ## ✨ Overview
 
@@ -37,4 +42,3 @@ If you find this work useful, please consider citing our paper.
   journal={arXiv preprint arXiv:2604.22586},
   year={2026}
 }
-
