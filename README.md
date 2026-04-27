@@ -4,6 +4,7 @@
 
 [![Project Page](https://img.shields.io/badge/Project-Page-blue?style=for-the-badge&logo=googlechrome&logoColor=white)](https://cuc-mipg.github.io/FlowAnchor.github.io/)
 [![arXiv](https://img.shields.io/badge/arXiv-2604.22586-b31b1b.svg?style=for-the-badge)](https://arxiv.org/abs/2604.22586)
+[![Hugging Face Papers](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Papers-FFD21E?style=for-the-badge)](https://huggingface.co/papers/2604.22586)
 
 </div>
 
