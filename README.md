@@ -29,6 +29,7 @@ With these two designs, FlowAnchor enables more faithful, temporally coherent, a
 
 ## 📰 News
 
+- **[2026/07]** Our paper **FlowAnchor** has been accepted by **ACM Multimedia 2026 (ACM MM 2026)**!
 - **[2026/04]** Released our arXiv paper: [FlowAnchor: Stabilizing the Editing Signal for Inversion-Free Video Editing](https://arxiv.org/abs/2604.22586).
 
 
