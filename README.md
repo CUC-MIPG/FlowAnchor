@@ -50,7 +50,7 @@ The edited video is saved to `outputs/hugging_lemon.mp4`.
 
 Wan-Edit+Mask is provided in `src/wanedit_mask/`, with the inference entry at `scripts/edit_wanedit_mask.py`.
 
-To test your own case locally, use [VACE](https://github.com/ali-vilab/VACE) to track a first-frame mask. Run this command in the VACE repository:
+For your own videos, first use [SAM](https://github.com/facebookresearch/segment-anything) to segment the editing region in the first frame, then use [VACE](https://github.com/ali-vilab/VACE) to propagate the mask to subsequent frames. Run this command in the VACE repository, with `--mask` pointing to the first-frame mask:
 
 ```bash
 python vace/vace_preproccess.py --task inpainting --mode masktrack \
