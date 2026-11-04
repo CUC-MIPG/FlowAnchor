@@ -1,3 +1,5 @@
+import math
+
 import torch
 import numpy as np
 from tqdm import tqdm
@@ -36,7 +38,7 @@ def FlowEditWan(
         T_steps: Total diffusion steps (default: 25 for Wan)
         tar_guidance_scale: Guidance scale for target prompt (default: 1.0 for Wan)
         n_max: Number of active editing steps (default: 23)
-        omega: AMM coefficient (default: 1.0 for 81 input frames)
+        omega: Base AMM strength, scaled by log(F) / log(21) for latent frame count F
         ca_mask: CA resolution mask [1, 1, F_ca, H_ca, W_ca] (optional)
         target_word: Target word/phrase for CA modulation (optional)
         row_strength: Row modulation strength (default: 0.3)
@@ -49,6 +51,9 @@ def FlowEditWan(
     """
 
     device = x_src_video.device
+    # Wan2.1 encodes the 81-frame reference video into 21 latent frames.
+    num_latent_frames = x_src_video.shape[2]
+    omega_f = omega * (math.log(num_latent_frames) / math.log(21))
 
     # Prepare edit mask if provided
     if edit_mask is not None:
@@ -194,7 +199,7 @@ def FlowEditWan(
 
         # Generate dynamic mask and apply weighting
         diff_mask = get_diff_mask(V_delta)
-        V_delta = (1.0 + omega * diff_mask) * V_delta
+        V_delta = (1.0 + omega_f * diff_mask) * V_delta
 
         # # Apply edit mask: only update within masked regions
         # if edit_mask is not None:

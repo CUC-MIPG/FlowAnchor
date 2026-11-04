@@ -46,7 +46,7 @@ def get_parser():
         "--omega",
         type=float,
         default=1.0,
-        help="AMM coefficient",
+        help="Base AMM strength, scaled automatically by latent frame count",
     )
     parser.add_argument("--row_strength", type=float, default=0.3)
     parser.add_argument("--col_strength", type=float, default=0.3)
