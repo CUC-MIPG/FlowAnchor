@@ -68,10 +68,10 @@ We thank the authors of [FlowEdit](https://github.com/fallenshock/FlowEdit), [Vi
 If you find our work useful, please consider citing our paper.
 
 ```bibtex
-@article{chen2026flowanchor,
+@inproceedings{chen2026flowanchor,
   title={FlowAnchor: Stabilizing the Editing Signal for Inversion-Free Video Editing},
   author={Chen, Ze and Chen, Lan and Li, Yuanhang and Mao, Qi},
-  journal={arXiv preprint arXiv:2604.22586},
+  booktitle={Proceedings of the 34th ACM International Conference on Multimedia},
   year={2026}
 }
 ```
