@@ -1,0 +1,38 @@
+{
+  "date": "2026-11-04",
+  "device": "NVIDIA L40",
+  "python": "3.10",
+  "torch": "2.6.0+cu124",
+  "diffusers": "0.33.1",
+  "transformers": "4.51.3",
+  "model_revision": "0fad780a534b6463e45facd96134c9f345acfa5b",
+  "flowanchor": {
+    "frames": 81,
+    "equal_frames": 81,
+    "max_pixel_difference": 0,
+    "mean_absolute_difference": 0.0,
+    "byte_identical": true,
+    "refactor_latents_identical": true,
+    "inference_seconds": 214.54388103203382
+  },
+  "reference_video_sha256": "41e8cf8038efd2663c8a442979721bddccd99e9fdbaabd959c12ce68c10be281",
+  "cpu_contract_tests": {
+    "passed": 5,
+    "command": "python -m unittest discover -s tests -v"
+  },
+  "wanedit_mask": {
+    "gpu_interface_smoke_test": "passed",
+    "input_frames": 1,
+    "input_width": 16,
+    "input_height": 16,
+    "T_steps": 2,
+    "n_max": 1,
+    "target_cfg": 1.0,
+    "note": "Interface smoke check, not a benchmark or quality evaluation."
+  },
+  "vace": {
+    "official_entry_and_output_contract": "inspected",
+    "mask_video_conversion": "tested",
+    "tracking_model_inference": "not run; external installation required"
+  }
+}
