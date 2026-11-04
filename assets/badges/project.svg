@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="166" height="40" viewBox="0 0 166 40" role="img" aria-labelledby="title">
+  <title id="title">Project Page</title>
+  <defs>
+    <linearGradient id="background" x2="1" y2="1">
+      <stop stop-color="#1e293b"/>
+      <stop offset="1" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect x="0.5" y="0.5" width="165" height="39" rx="9" fill="url(#background)" stroke="#475569"/>
+  <g fill="none" stroke="#93c5fd" stroke-width="1.5">
+    <circle cx="24" cy="20" r="8.5"/>
+    <ellipse cx="24" cy="20" rx="3.8" ry="8.5"/>
+    <path d="M15.5 20h17"/>
+  </g>
+  <text x="44" y="25" fill="#f8fafc" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="600">Project Page</text>
+  <path d="m139 24 8-8m-7-1h8v8" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

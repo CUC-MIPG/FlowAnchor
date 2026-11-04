@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 """Run Wan-Edit+Mask with mask-gated velocity updates."""
 import argparse
-import hashlib
-import json
-import time
 from pathlib import Path
 import sys
 
@@ -56,11 +53,6 @@ def get_parser():
         "--dtype", choices=["float16", "bfloat16", "float32"], default="float16"
     )
     parser.add_argument("--overwrite", action="store_true")
-    parser.add_argument(
-        "--save_latents",
-        action="store_true",
-        help="Also save edited latents for regression checks",
-    )
     return parser
 
 
@@ -78,21 +70,14 @@ def validate_args(args, parser):
         parser.error(
             "Check video_path, mask_dir and local model_path (model_index.json is required)"
         )
-    if not args.overwrite and any(
-        p.exists()
-        for p in (
-            args.output_path,
-            args.output_path.with_suffix(".json"),
-            args.output_path.with_suffix(".pt"),
-        )
-    ):
+    if not args.overwrite and args.output_path.exists():
         parser.error(
             "Output already exists; use --overwrite or choose another output_path"
         )
 
 
 def load_pipeline(args):
-    """Load the local checkpoint using the validated initialization order."""
+    """Load the local Wan pipeline and transformer."""
     import random
     import numpy as np
     import torch
@@ -108,8 +93,6 @@ def load_pipeline(args):
     dtype = getattr(torch, args.dtype)
     model = str(args.model_path.resolve())
     print("Loading local model:", model, flush=True)
-    # Keep the loading order of the validated reference run, including replacement
-    # with the custom transformer, to preserve random-number consumption.
     pipe = WanPipeline.from_pretrained(
         model, torch_dtype=dtype, local_files_only=True
     ).to(args.device)
@@ -159,30 +142,19 @@ def prepare_inputs(args, pipe):
     latent_mask = resize_mask_to_latent(masks, video_latents.shape).to(
         device=video_latents.device, dtype=video_latents.dtype
     )
-    f = video_latents.shape[2]
     print(
         f"Input: {len(frames)} frames, {w}x{h}; latent shape: {tuple(video_latents.shape)}",
         flush=True,
     )
-    video_info = dict(
-        num_frames=len(frames), width=w, height=h, fps=fps, latent_frames=f
-    )
-    return video_latents, latent_mask, video_info
+    return video_latents, latent_mask, fps
 
 
-def save_result(args, pipe, edited, video_info, seconds, peak):
-    """Decode the edited latents and save the video with its run metadata."""
+def save_video(args, pipe, edited, fps):
+    """Decode the edited latents and save the output video."""
     import torch
     from diffusers.utils import export_to_video
 
     args.output_path.parent.mkdir(parents=True, exist_ok=True)
-    latent_hash = (
-        hashlib.sha256(edited.detach().cpu().contiguous().numpy().tobytes()).hexdigest()
-        if args.dtype != "bfloat16"
-        else None
-    )
-    if args.save_latents:
-        torch.save(edited.detach().cpu(), args.output_path.with_suffix(".pt"))
     with torch.no_grad():
         mean = torch.tensor(
             pipe.vae.config.latents_mean, device=edited.device, dtype=edited.dtype
@@ -194,25 +166,7 @@ def save_result(args, pipe, edited, video_info, seconds, peak):
     if not torch.isfinite(decoded).all():
         raise ValueError("Decoded video contains NaN/Inf")
     video = pipe.video_processor.postprocess_video(decoded, output_type="np")[0]
-    export_to_video(video, str(args.output_path), fps=video_info["fps"])
-    metadata = {
-        k: str(v.resolve()) if isinstance(v, Path) else v for k, v in vars(args).items()
-    }
-    metadata.update(
-        method="wanedit_mask",
-        source_cfg=1.0,
-        num_frames=video_info["num_frames"],
-        width=video_info["width"],
-        height=video_info["height"],
-        fps=video_info["fps"],
-        latent_frames=video_info["latent_frames"],
-        latent_sha256=latent_hash,
-        inference_seconds=seconds,
-        peak_allocated_mib=peak,
-    )
-    args.output_path.with_suffix(".json").write_text(
-        json.dumps(metadata, indent=2) + "\n"
-    )
+    export_to_video(video, str(args.output_path), fps=fps)
 
 
 def main():
@@ -225,11 +179,7 @@ def main():
     if args.device.startswith("cuda") and not torch.cuda.is_available():
         parser.error("CUDA is unavailable; check PyTorch and your GPU allocation")
     pipe = load_pipeline(args)
-    video_latents, latent_mask, video_info = prepare_inputs(args, pipe)
-    if args.device.startswith("cuda"):
-        torch.cuda.reset_peak_memory_stats(args.device)
-        torch.cuda.synchronize(args.device)
-    start = time.perf_counter()
+    video_latents, latent_mask, fps = prepare_inputs(args, pipe)
     edited = FlowEditWan(
         pipe=pipe,
         scheduler=pipe.scheduler,
@@ -244,16 +194,8 @@ def main():
     )
     if not torch.isfinite(edited).all():
         raise ValueError("Edited latents contain NaN/Inf")
-    if args.device.startswith("cuda"):
-        torch.cuda.synchronize(args.device)
-    seconds = time.perf_counter() - start
-    peak = (
-        torch.cuda.max_memory_allocated(args.device) / 1024**2
-        if args.device.startswith("cuda")
-        else None
-    )
-    save_result(args, pipe, edited, video_info, seconds, peak)
-    print(f"Saved {args.output_path} ({seconds:.2f}s editing inference)", flush=True)
+    save_video(args, pipe, edited, fps)
+    print(f"Saved {args.output_path}", flush=True)
 
 
 if __name__ == "__main__":

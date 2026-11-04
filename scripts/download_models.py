@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Download the pinned Wan2.1 checkpoint, optionally through a Hugging Face mirror."""
 import argparse
-import json
 import os
 from pathlib import Path
 
@@ -51,9 +50,6 @@ def main():
             "README.md",
         ],
         max_workers=args.workers,
-    )
-    (Path(path) / "flowanchor_download.json").write_text(
-        json.dumps({"repo": REPO, "revision": args.revision}, indent=2) + "\n"
     )
     print("Model ready:", path)
 

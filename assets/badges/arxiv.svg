@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="154" height="40" viewBox="0 0 154 40" role="img" aria-labelledby="title">
+  <title id="title">arXiv Paper</title>
+  <defs>
+    <linearGradient id="background" x2="1" y2="1">
+      <stop stop-color="#3b1d2a"/>
+      <stop offset="1" stop-color="#24121d"/>
+    </linearGradient>
+  </defs>
+  <rect x="0.5" y="0.5" width="153" height="39" rx="9" fill="url(#background)" stroke="#704052"/>
+  <g fill="none" stroke="#fda4af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 10.5h8l5 5V29H18zM26 10.5v5h5M21.5 20h6M21.5 24h6"/>
+  </g>
+  <text x="43" y="25" fill="#fff1f2" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="600">arXiv Paper</text>
+  <path d="m127 24 8-8m-7-1h8v8" fill="none" stroke="#c49aa9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
